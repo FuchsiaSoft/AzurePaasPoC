@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9266f1316a7a4462809ffd3f235e73a3" Name="Diagram1" >
+        <EntityTypeShape EntityType="VisitModel.ServiceUser" Width="1.5" PointX="4.875" PointY="3.875" />
+        <EntityTypeShape EntityType="VisitModel.Visitor" Width="1.5" PointX="7.625" PointY="2.375" />
+        <EntityTypeShape EntityType="VisitModel.ServiceUserType" Width="1.5" PointX="2.75" PointY="2.625" />
+        <AssociationConnector Association="VisitModel.ServiceUserTypeServiceUser" />
+        <EntityTypeShape EntityType="VisitModel.QuickText" Width="1.5" PointX="2.75" PointY="5.5" />
+        <AssociationConnector Association="VisitModel.ServiceUserTypeQuickText" />
+        <AssociationConnector Association="VisitModel.VisitorServiceUser" />
+        <EntityTypeShape EntityType="VisitModel.Visit" Width="1.5" PointX="8.375" PointY="6" />
+        <AssociationConnector Association="VisitModel.ServiceUserVisit" />
+        <AssociationConnector Association="VisitModel.VisitorVisit" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

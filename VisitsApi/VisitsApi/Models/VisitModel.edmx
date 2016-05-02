@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VisitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="VisitModelStoreContainer">
+    <EntitySet Name="ServiceUserTypes" EntityType="VisitModel.Store.ServiceUserTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuickTexts" EntityType="VisitModel.Store.QuickTexts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Visits" EntityType="VisitModel.Store.Visits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ServiceUsers" EntityType="VisitModel.Store.ServiceUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Visitors" EntityType="VisitModel.Store.Visitors" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ServiceUserTypeServiceUser" Association="VisitModel.Store.ServiceUserTypeServiceUser">
+      <End Role="ServiceUserType" EntitySet="ServiceUserTypes" />
+      <End Role="ServiceUser" EntitySet="ServiceUsers" />
+    </AssociationSet>
+    <AssociationSet Name="ServiceUserTypeQuickText" Association="VisitModel.Store.ServiceUserTypeQuickText">
+      <End Role="ServiceUserType" EntitySet="ServiceUserTypes" />
+      <End Role="QuickText" EntitySet="QuickTexts" />
+    </AssociationSet>
+    <AssociationSet Name="VisitorServiceUser" Association="VisitModel.Store.VisitorServiceUser">
+      <End Role="Visitor" EntitySet="Visitors" />
+      <End Role="ServiceUser" EntitySet="ServiceUsers" />
+    </AssociationSet>
+    <AssociationSet Name="ServiceUserVisit" Association="VisitModel.Store.ServiceUserVisit">
+      <End Role="ServiceUser" EntitySet="ServiceUsers" />
+      <End Role="Visit" EntitySet="Visits" />
+    </AssociationSet>
+    <AssociationSet Name="VisitorVisit" Association="VisitModel.Store.VisitorVisit">
+      <End Role="Visitor" EntitySet="Visitors" />
+      <End Role="Visit" EntitySet="Visits" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ServiceUserTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuickTexts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ServiceUserType_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Visits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ServiceUser_Id" Type="int" Nullable="false" />
+    <Property Name="Visitor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServiceUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Firstname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AddressOne" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AddressTwo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AddressThree" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AddressFour" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PostCode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ServiceUserType_Id" Type="int" Nullable="false" />
+    <Property Name="Visitor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Visitors">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Firstname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="JobTitle" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="ServiceUserTypeServiceUser">
+    <End Role="ServiceUserType" Type="VisitModel.Store.ServiceUserTypes" Multiplicity="1" />
+    <End Role="ServiceUser" Type="VisitModel.Store.ServiceUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceUserType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServiceUser">
+        <PropertyRef Name="ServiceUserType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ServiceUserTypeQuickText">
+    <End Role="ServiceUserType" Type="VisitModel.Store.ServiceUserTypes" Multiplicity="1" />
+    <End Role="QuickText" Type="VisitModel.Store.QuickTexts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceUserType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuickText">
+        <PropertyRef Name="ServiceUserType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VisitorServiceUser">
+    <End Role="Visitor" Type="VisitModel.Store.Visitors" Multiplicity="1" />
+    <End Role="ServiceUser" Type="VisitModel.Store.ServiceUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Visitor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServiceUser">
+        <PropertyRef Name="Visitor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ServiceUserVisit">
+    <End Role="ServiceUser" Type="VisitModel.Store.ServiceUsers" Multiplicity="1" />
+    <End Role="Visit" Type="VisitModel.Store.Visits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Visit">
+        <PropertyRef Name="ServiceUser_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VisitorVisit">
+    <End Role="Visitor" Type="VisitModel.Store.Visitors" Multiplicity="1" />
+    <End Role="Visit" Type="VisitModel.Store.Visits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Visitor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Visit">
+        <PropertyRef Name="Visitor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="VisitModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="VisitModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ServiceUserTypes" EntityType="VisitModel.ServiceUserType" />
+          <AssociationSet Name="ServiceUserTypeServiceUser" Association="VisitModel.ServiceUserTypeServiceUser">
+            <End Role="ServiceUserType" EntitySet="ServiceUserTypes" />
+            <End Role="ServiceUser" EntitySet="ServiceUsers" />
+          </AssociationSet>
+          <EntitySet Name="QuickTexts" EntityType="VisitModel.QuickText" />
+          <AssociationSet Name="ServiceUserTypeQuickText" Association="VisitModel.ServiceUserTypeQuickText">
+            <End Role="ServiceUserType" EntitySet="ServiceUserTypes" />
+            <End Role="QuickText" EntitySet="QuickTexts" />
+          </AssociationSet>
+          <AssociationSet Name="VisitorServiceUser" Association="VisitModel.VisitorServiceUser">
+            <End Role="Visitor" EntitySet="Visitors" />
+            <End Role="ServiceUser" EntitySet="ServiceUsers" />
+          </AssociationSet>
+          <EntitySet Name="Visits" EntityType="VisitModel.Visit" />
+          <AssociationSet Name="ServiceUserVisit" Association="VisitModel.ServiceUserVisit">
+            <End Role="ServiceUser" EntitySet="ServiceUsers" />
+            <End Role="Visit" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="VisitorVisit" Association="VisitModel.VisitorVisit">
+            <End Role="Visitor" EntitySet="Visitors" />
+            <End Role="Visit" EntitySet="Visits" />
+          </AssociationSet>
+          <EntitySet Name="ServiceUsers" EntityType="VisitModel.ServiceUser" />
+          <EntitySet Name="Visitors" EntityType="VisitModel.Visitor" />
+        </EntityContainer>
+        <EntityType Name="ServiceUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" Nullable="false" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <Property Name="AddressOne" Type="String" Nullable="false" />
+          <Property Name="AddressTwo" Type="String" Nullable="true" />
+          <Property Name="AddressThree" Type="String" Nullable="true" />
+          <Property Name="AddressFour" Type="String" Nullable="true" />
+          <Property Name="PostCode" Type="String" Nullable="true" />
+          <NavigationProperty Name="ServiceUserType" Relationship="VisitModel.ServiceUserTypeServiceUser" FromRole="ServiceUser" ToRole="ServiceUserType" />
+          <NavigationProperty Name="Visitor" Relationship="VisitModel.VisitorServiceUser" FromRole="ServiceUser" ToRole="Visitor" />
+          <NavigationProperty Name="Visits" Relationship="VisitModel.ServiceUserVisit" FromRole="ServiceUser" ToRole="Visit" />
+        </EntityType>
+        <EntityType Name="Visitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" Nullable="false" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" />
+          <NavigationProperty Name="AssignedServiceUsers" Relationship="VisitModel.VisitorServiceUser" FromRole="Visitor" ToRole="ServiceUser" />
+          <NavigationProperty Name="Visits" Relationship="VisitModel.VisitorVisit" FromRole="Visitor" ToRole="Visit" />
+        </EntityType>
+        <EntityType Name="ServiceUserType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="ServiceUsers" Relationship="VisitModel.ServiceUserTypeServiceUser" FromRole="ServiceUserType" ToRole="ServiceUser" />
+          <NavigationProperty Name="QuickTexts" Relationship="VisitModel.ServiceUserTypeQuickText" FromRole="ServiceUserType" ToRole="QuickText" />
+        </EntityType>
+        <Association Name="ServiceUserTypeServiceUser">
+          <End Type="VisitModel.ServiceUserType" Role="ServiceUserType" Multiplicity="1" />
+          <End Type="VisitModel.ServiceUser" Role="ServiceUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="QuickText">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Body" Type="String" Nullable="false" />
+          <NavigationProperty Name="ServiceUserType" Relationship="VisitModel.ServiceUserTypeQuickText" FromRole="QuickText" ToRole="ServiceUserType" />
+        </EntityType>
+        <Association Name="ServiceUserTypeQuickText">
+          <End Type="VisitModel.ServiceUserType" Role="ServiceUserType" Multiplicity="1" />
+          <End Type="VisitModel.QuickText" Role="QuickText" Multiplicity="*" />
+        </Association>
+        <Association Name="VisitorServiceUser">
+          <End Type="VisitModel.Visitor" Role="Visitor" Multiplicity="1" />
+          <End Type="VisitModel.ServiceUser" Role="ServiceUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Comments" Type="String" Nullable="true" />
+          <NavigationProperty Name="ServiceUser" Relationship="VisitModel.ServiceUserVisit" FromRole="Visit" ToRole="ServiceUser" />
+          <NavigationProperty Name="Visitor" Relationship="VisitModel.VisitorVisit" FromRole="Visit" ToRole="Visitor" />
+        </EntityType>
+        <Association Name="ServiceUserVisit">
+          <End Type="VisitModel.ServiceUser" Role="ServiceUser" Multiplicity="1" />
+          <End Type="VisitModel.Visit" Role="Visit" Multiplicity="*" />
+        </Association>
+        <Association Name="VisitorVisit">
+          <End Type="VisitModel.Visitor" Role="Visitor" Multiplicity="1" />
+          <End Type="VisitModel.Visit" Role="Visit" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="VisitModelStoreContainer" CdmEntityContainer="VisitModelContainer">
+    <EntitySetMapping Name="ServiceUserTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(VisitModel.ServiceUserType)">
+        <MappingFragment StoreEntitySet="ServiceUserTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuickTexts">
+      <EntityTypeMapping TypeName="IsTypeOf(VisitModel.QuickText)">
+        <MappingFragment StoreEntitySet="QuickTexts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Visits">
+      <EntityTypeMapping TypeName="IsTypeOf(VisitModel.Visit)">
+        <MappingFragment StoreEntitySet="Visits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(VisitModel.ServiceUser)">
+        <MappingFragment StoreEntitySet="ServiceUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="AddressOne" ColumnName="AddressOne" />
+          <ScalarProperty Name="AddressTwo" ColumnName="AddressTwo" />
+          <ScalarProperty Name="AddressThree" ColumnName="AddressThree" />
+          <ScalarProperty Name="AddressFour" ColumnName="AddressFour" />
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Visitors">
+      <EntityTypeMapping TypeName="IsTypeOf(VisitModel.Visitor)">
+        <MappingFragment StoreEntitySet="Visitors">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ServiceUserTypeServiceUser" TypeName="VisitModel.ServiceUserTypeServiceUser" StoreEntitySet="ServiceUsers">
+      <EndProperty Name="ServiceUserType">
+        <ScalarProperty Name="Id" ColumnName="ServiceUserType_Id" />
+      </EndProperty>
+      <EndProperty Name="ServiceUser">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ServiceUserTypeQuickText" TypeName="VisitModel.ServiceUserTypeQuickText" StoreEntitySet="QuickTexts">
+      <EndProperty Name="ServiceUserType">
+        <ScalarProperty Name="Id" ColumnName="ServiceUserType_Id" />
+      </EndProperty>
+      <EndProperty Name="QuickText">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VisitorServiceUser" TypeName="VisitModel.VisitorServiceUser" StoreEntitySet="ServiceUsers">
+      <EndProperty Name="Visitor">
+        <ScalarProperty Name="Id" ColumnName="Visitor_Id" />
+      </EndProperty>
+      <EndProperty Name="ServiceUser">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ServiceUserVisit" TypeName="VisitModel.ServiceUserVisit" StoreEntitySet="Visits">
+      <EndProperty Name="ServiceUser">
+        <ScalarProperty Name="Id" ColumnName="ServiceUser_Id" />
+      </EndProperty>
+      <EndProperty Name="Visit">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VisitorVisit" TypeName="VisitModel.VisitorVisit" StoreEntitySet="Visits">
+      <EndProperty Name="Visitor">
+        <ScalarProperty Name="Id" ColumnName="Visitor_Id" />
+      </EndProperty>
+      <EndProperty Name="Visit">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
